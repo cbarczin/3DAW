@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora PHP</title>
+</head>
+<body>
+    <h1>CALCULADORA</h1>
+
+    <form action="calculos.php" method="GET">
+        <label for="a">Valor 1:</label>
+        <input type="text" name="a" id="a"><br>
+        <label for="b">Valor 2:</label>
+        <input type="text" name="b" id="b"><br>
+        <label for="operacao">Escolha a operação:</label>
+        <select name="operacao" id="operacao" required>
+            <option value="soma">Soma</option>
+            <option value="subtracao">Subtração</option>
+            <option value="multiplicacao">Multiplicação</option>
+            <option value="divisao">Divisão</option>
+            <option value="troca">Troca de sinal</option>
+            <option value="cosseno">Cosseno</option>
+            <option value="seno">Seno</option>
+            <option value="tangente">Tangente</option>
+            <option value="1/porx">1/Numero</option>
+        </select><br>
+        <input type="submit" value="Calcular">
+    </form>
+</body>
+</html>

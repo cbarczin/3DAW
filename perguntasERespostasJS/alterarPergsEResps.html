@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterar Perguntas</title>
+</head>
+<body>
+    <main>
+        <h3>Informe abaixo as informações necessárias para alterar as perguntas do sistema.</h3>
+        <form id="form">
+            <label for="pergAlterar">Qual pergunta será alterada?: </label>
+            <input type="text" name="pergAlterar" id="pergAlterar" required>
+            <br><br>
+            <label for="novaPerg">E qual será a nova pergunta?: </label>
+            <input type="text" name="novaPerg" id="novaPerg" required>
+            <br><br>
+            <label for="respostaCerta">Qual é a sua resposta certa?: </label>
+            <input type="text" name="respostaCerta" id="respostaCerta" required>
+            <br>
+            <label for="alternativa2">Alternativa 2: </label>
+            <input type="text" name="alternativa2" id="alternativa2" required>
+            <br>
+            <label for="alternativa3">Alternativa 3: </label>
+            <input type="text" name="alternativa3" id="alternativa3" required>
+            <br>
+            <label for="alternativa4">Alternativa 4:</label>
+            <input type="text" name="alternativa4" id="alternativa4" required>
+            <br><br>
+            <button type="submit">Alterar Pergunta</button>
+            <p><a href="./home.html">Voltar</a></p>
+        </form>
+    </main>
+
+    <script>
+        document.getElementById("form").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch("/alterar-pergunta", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message);
+                } else {
+                    alert("Erro: " + result.message);
+                }
+            } catch (error) {
+                alert("Erro ao enviar a requisição: " + error);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Perguntas e Respostas</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <h3>Lista das perguntas e respostas registradas no sistema</h3>
+        <table id="tabela-perguntas">
+            <thead>
+                <tr>
+                    <th>Pergunta</th>
+                    <th>Resposta Certa</th>
+                    <th>Alternativa 2</th>
+                    <th>Alternativa 3</th>
+                    <th>Alternativa 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- As perguntas serão inseridas aqui via JavaScript -->
+            </tbody>
+        </table>
+    </main>
+
+    <p><a href="./index.html">Voltar</a></p>
+
+    <script>
+        // Função para obter os dados e exibir na tabela
+        async function carregarPerguntas() {
+            try {
+                // Fazendo a requisição para o PHP que retorna as perguntas
+                const response = await fetch('seu_arquivo_php_que_retornará_o_json.php'); // Coloque o caminho correto para o PHP
+                const perguntas = await response.json();
+
+                // Verifica se as perguntas foram recebidas corretamente
+                if (!Array.isArray(perguntas)) {
+                    console.error('Erro ao receber as perguntas');
+                    return;
+                }
+
+                // Obtendo o corpo da tabela
+                const tbody = document.querySelector('#tabela-perguntas tbody');
+                
+                // Limpa a tabela antes de adicionar novos dados
+                tbody.innerHTML = '';
+
+                // Itera sobre as perguntas e adiciona na tabela
+                perguntas.forEach(pergunta => {
+                    const row = document.createElement('tr');
+                    
+                    row.innerHTML = `
+                        <td>${pergunta.pergunta}</td>
+                        <td>${pergunta.resposta_certa}</td>
+                        <td>${pergunta.alternativa_2}</td>
+                        <td>${pergunta.alternativa_3}</td>
+                        <td>${pergunta.alternativa_4}</td>
+                    `;
+                    
+                    tbody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar as perguntas:', error);
+            }
+        }
+
+        // Carregar as perguntas assim que a página for carregada
+        window.onload = carregarPerguntas;
+    </script>
+</body>
+</html>

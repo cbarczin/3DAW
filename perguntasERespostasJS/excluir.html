@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excluir Perguntas</title>
+</head>
+<body>
+    <h3>Excluir Pergunta</h3>
+    
+    <!-- Formulário de Exclusão -->
+    <form id="formExcluir" onsubmit="return excluirPergunta(event)">
+        <label for="perguntaParaExcluir">Selecione a pergunta a ser excluída:</label><br>
+        <select name="perguntaParaExcluir" id="perguntaParaExcluir" required>
+            <option value="">-- Selecione uma Pergunta --</option>
+        </select><br><br>
+        <input type="submit" value="Excluir Pergunta">
+    </form>
+
+    <p><a href="./home.html">Voltar</a></p>
+
+    <script>
+        // Função para carregar as perguntas do LocalStorage
+        function carregarPerguntas() {
+            // Recupera o array de perguntas do localStorage ou um array vazio caso não exista
+            const perguntas = JSON.parse(localStorage.getItem('perguntas')) || [];
+            const selectElement = document.getElementById('perguntaParaExcluir');
+            
+            // Limpa as opções anteriores do select
+            selectElement.innerHTML = '<option value="">-- Selecione uma Pergunta --</option>';
+            
+            // Adiciona as perguntas ao dropdown
+            perguntas.forEach(pergunta => {
+                const option = document.createElement('option');
+                option.value = pergunta.pergunta;
+                option.textContent = pergunta.pergunta;
+                selectElement.appendChild(option);
+            });
+        }
+
+        // Função para excluir a pergunta selecionada
+        function excluirPergunta(event) {
+            event.preventDefault(); // Evita o envio do formulário
+
+            // Obtém o valor da pergunta selecionada
+            const perguntaParaExcluir = document.getElementById('perguntaParaExcluir').value;
+
+            // Se nenhuma pergunta foi selecionada, exibe um alerta
+            if (!perguntaParaExcluir) {
+                alert("Selecione uma pergunta para excluir.");
+                return;
+            }
+
+            // Recupera as perguntas armazenadas no localStorage
+            let perguntas = JSON.parse(localStorage.getItem('perguntas')) || [];
+
+            // Filtra a pergunta que será excluída
+            perguntas = perguntas.filter(pergunta => pergunta.pergunta !== perguntaParaExcluir);
+            
+            // Atualiza o localStorage com a lista de perguntas restantes
+            localStorage.setItem('perguntas', JSON.stringify(perguntas));
+            
+            // Alerta de sucesso
+            alert('Pergunta excluída com sucesso!');
+
+            // Atualiza a lista de perguntas no select
+            carregarPerguntas();
+        }
+
+        // Carregar as perguntas na inicialização
+        window.onload = carregarPerguntas;
+    </script>
+</body>
+</html>
